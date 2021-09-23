@@ -43,4 +43,8 @@ contract OracleTest {
         secondsAgo = OracleLibrary.getOldestObservationSecondsAgo(pool);
         currentTimestamp = uint32(block.timestamp);
     }
+
+    function getBlockStartingTick(address pool) public view returns (int24) {
+        return OracleLibrary.getBlockStartingTick(pool);
+    }
 }
