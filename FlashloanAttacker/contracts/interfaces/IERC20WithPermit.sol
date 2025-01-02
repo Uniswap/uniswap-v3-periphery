@@ -10,43 +10,39 @@
   Twitter: https://twitter.com/cookbook_dev
   Discord: https://discord.gg/cookbookdev
   
-  Find this contract on Cookbook: https://www.cookbook.dev/contracts/simple-token?utm=code
+  Find this contract on Cookbook: https://www.cookbook.dev/contracts/FlashloanAttacker?utm=code
   */
   
-  // SPDX-License-Identifier: UNLICENSED
+  // SPDX-License-Identifier: AGPL-3.0
+pragma solidity ^0.8.0;
 
-pragma solidity ^0.8.10;
-
-import "simple-token/@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {IERC20} from '../dependencies/openzeppelin/contracts/IERC20.sol';
 
 /**
- * @title Simple Token
- * @author Breakthrough Labs Inc.
- * @notice Token, ERC20, Fixed Supply
- * @custom:version 1.0.7
- * @custom:address 4
- * @custom:default-precision 18
- * @custom:simple-description Simple Token. A fixed supply is minted on deployment, and
- * new tokens can never be created.
- * @dev ERC20 token with the following features:
- *
- *  - Premint your total supply.
- *  - No minting function. This allows users to comfortably know the future supply of the token.
- *
+ * @title IERC20WithPermit
+ * @author Aave
+ * @notice Interface for the permit function (EIP-2612)
  */
-
-contract FixedToken is ERC20 {
-    /**
-     * @param name Token Name
-     * @param symbol Token Symbol
-     * @param totalSupply Token Supply
-     */
-    constructor(
-        string memory name,
-        string memory symbol,
-        uint256 totalSupply
-    ) payable ERC20(name, symbol) {
-        _mint(msg.sender, totalSupply);
-    }
+interface IERC20WithPermit is IERC20 {
+  /**
+   * @notice Allow passing a signed message to approve spending
+   * @dev implements the permit function as for
+   * https://github.com/ethereum/EIPs/blob/8a34d644aacf0f9f8f00815307fd7dd5da07655f/EIPS/eip-2612.md
+   * @param owner The owner of the funds
+   * @param spender The spender
+   * @param value The amount
+   * @param deadline The deadline timestamp, type(uint256).max for max deadline
+   * @param v Signature param
+   * @param s Signature param
+   * @param r Signature param
+   */
+  function permit(
+    address owner,
+    address spender,
+    uint256 value,
+    uint256 deadline,
+    uint8 v,
+    bytes32 r,
+    bytes32 s
+  ) external;
 }
-

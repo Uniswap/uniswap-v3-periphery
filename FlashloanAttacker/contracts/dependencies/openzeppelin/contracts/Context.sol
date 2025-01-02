@@ -10,43 +10,29 @@
   Twitter: https://twitter.com/cookbook_dev
   Discord: https://discord.gg/cookbookdev
   
-  Find this contract on Cookbook: https://www.cookbook.dev/contracts/simple-token?utm=code
+  Find this contract on Cookbook: https://www.cookbook.dev/contracts/FlashloanAttacker?utm=code
   */
   
-  // SPDX-License-Identifier: UNLICENSED
+  // SPDX-License-Identifier: MIT
+pragma solidity 0.8.10;
 
-pragma solidity ^0.8.10;
-
-import "simple-token/@openzeppelin/contracts/token/ERC20/ERC20.sol";
-
-/**
- * @title Simple Token
- * @author Breakthrough Labs Inc.
- * @notice Token, ERC20, Fixed Supply
- * @custom:version 1.0.7
- * @custom:address 4
- * @custom:default-precision 18
- * @custom:simple-description Simple Token. A fixed supply is minted on deployment, and
- * new tokens can never be created.
- * @dev ERC20 token with the following features:
+/*
+ * @dev Provides information about the current execution context, including the
+ * sender of the transaction and its data. While these are generally available
+ * via msg.sender and msg.data, they should not be accessed in such a direct
+ * manner, since when dealing with GSN meta-transactions the account sending and
+ * paying for execution may not be the actual sender (as far as an application
+ * is concerned).
  *
- *  - Premint your total supply.
- *  - No minting function. This allows users to comfortably know the future supply of the token.
- *
+ * This contract is only required for intermediate, library-like contracts.
  */
+abstract contract Context {
+  function _msgSender() internal view virtual returns (address payable) {
+    return payable(msg.sender);
+  }
 
-contract FixedToken is ERC20 {
-    /**
-     * @param name Token Name
-     * @param symbol Token Symbol
-     * @param totalSupply Token Supply
-     */
-    constructor(
-        string memory name,
-        string memory symbol,
-        uint256 totalSupply
-    ) payable ERC20(name, symbol) {
-        _mint(msg.sender, totalSupply);
-    }
+  function _msgData() internal view virtual returns (bytes memory) {
+    this; // silence state mutability warning without generating bytecode - see https://github.com/ethereum/solidity/issues/2691
+    return msg.data;
+  }
 }
-

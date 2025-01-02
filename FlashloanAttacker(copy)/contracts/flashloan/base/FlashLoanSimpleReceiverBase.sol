@@ -10,43 +10,27 @@
   Twitter: https://twitter.com/cookbook_dev
   Discord: https://discord.gg/cookbookdev
   
-  Find this contract on Cookbook: https://www.cookbook.dev/contracts/simple-token?utm=code
+  Find this contract on Cookbook: https://www.cookbook.dev/contracts/FlashloanAttacker?utm=code
   */
   
-  // SPDX-License-Identifier: UNLICENSED
-
+  // SPDX-License-Identifier: AGPL-3.0
 pragma solidity ^0.8.10;
 
-import "simple-token/@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {IFlashLoanSimpleReceiver} from '../interfaces/IFlashLoanSimpleReceiver.sol';
+import {IPoolAddressesProvider} from '../../interfaces/IPoolAddressesProvider.sol';
+import {IPool} from '../../interfaces/IPool.sol';
 
 /**
- * @title Simple Token
- * @author Breakthrough Labs Inc.
- * @notice Token, ERC20, Fixed Supply
- * @custom:version 1.0.7
- * @custom:address 4
- * @custom:default-precision 18
- * @custom:simple-description Simple Token. A fixed supply is minted on deployment, and
- * new tokens can never be created.
- * @dev ERC20 token with the following features:
- *
- *  - Premint your total supply.
- *  - No minting function. This allows users to comfortably know the future supply of the token.
- *
+ * @title FlashLoanSimpleReceiverBase
+ * @author Aave
+ * @notice Base contract to develop a flashloan-receiver contract.
  */
+abstract contract FlashLoanSimpleReceiverBase is IFlashLoanSimpleReceiver {
+  IPoolAddressesProvider public immutable override ADDRESSES_PROVIDER;
+  IPool public immutable override POOL;
 
-contract FixedToken is ERC20 {
-    /**
-     * @param name Token Name
-     * @param symbol Token Symbol
-     * @param totalSupply Token Supply
-     */
-    constructor(
-        string memory name,
-        string memory symbol,
-        uint256 totalSupply
-    ) payable ERC20(name, symbol) {
-        _mint(msg.sender, totalSupply);
-    }
+  constructor(IPoolAddressesProvider provider) {
+    ADDRESSES_PROVIDER = provider;
+    POOL = IPool(provider.getPool());
+  }
 }
-

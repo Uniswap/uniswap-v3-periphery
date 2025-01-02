@@ -10,43 +10,39 @@
   Twitter: https://twitter.com/cookbook_dev
   Discord: https://discord.gg/cookbookdev
   
-  Find this contract on Cookbook: https://www.cookbook.dev/contracts/simple-token?utm=code
+  Find this contract on Cookbook: https://www.cookbook.dev/contracts/tether-usdt?utm=code
   */
   
-  // SPDX-License-Identifier: UNLICENSED
+  // SPDX-License-Identifier: MIT
+// OpenZeppelin Contracts v4.4.1 (token/ERC20/extensions/ERC20Pausable.sol)
 
-pragma solidity ^0.8.10;
+pragma solidity ^0.8.0;
 
-import "simple-token/@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "../ERC20.sol";
+import "../../../security/Pausable.sol";
 
 /**
- * @title Simple Token
- * @author Breakthrough Labs Inc.
- * @notice Token, ERC20, Fixed Supply
- * @custom:version 1.0.7
- * @custom:address 4
- * @custom:default-precision 18
- * @custom:simple-description Simple Token. A fixed supply is minted on deployment, and
- * new tokens can never be created.
- * @dev ERC20 token with the following features:
+ * @dev ERC20 token with pausable token transfers, minting and burning.
  *
- *  - Premint your total supply.
- *  - No minting function. This allows users to comfortably know the future supply of the token.
- *
+ * Useful for scenarios such as preventing trades until the end of an evaluation
+ * period, or having an emergency switch for freezing all token transfers in the
+ * event of a large bug.
  */
-
-contract FixedToken is ERC20 {
+abstract contract ERC20Pausable is ERC20, Pausable {
     /**
-     * @param name Token Name
-     * @param symbol Token Symbol
-     * @param totalSupply Token Supply
+     * @dev See {ERC20-_beforeTokenTransfer}.
+     *
+     * Requirements:
+     *
+     * - the contract must not be paused.
      */
-    constructor(
-        string memory name,
-        string memory symbol,
-        uint256 totalSupply
-    ) payable ERC20(name, symbol) {
-        _mint(msg.sender, totalSupply);
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal virtual override {
+        super._beforeTokenTransfer(from, to, amount);
+
+        require(!paused(), "ERC20Pausable: token transfer while paused");
     }
 }
-
