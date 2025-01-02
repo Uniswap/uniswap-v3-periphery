@@ -12,12 +12,12 @@
   
   Find this contract on Cookbook: https://www.cookbook.dev/contracts/simple-token?utm=code
   */
-  
-  // SPDX-License-Identifier: UNLICENSED
+
+// SPDX-License-Identifier: UNLICENSED
 
 pragma solidity ^0.8.10;
 
-import "simple-token/@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import 'simple-token/@openzeppelin/contracts/token/ERC20/ERC20.sol';
 
 /**
  * @title Simple Token
@@ -49,4 +49,3 @@ contract FixedToken is ERC20 {
         _mint(msg.sender, totalSupply);
     }
 }
-
