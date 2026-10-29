@@ -145,7 +145,7 @@ interface INonfungiblePositionManager is
 
     /// @notice Decreases the amount of liquidity in a position and accounts it to the position
     /// @param params tokenId The ID of the token for which liquidity is being decreased,
-    /// amount The amount by which liquidity will be decreased,
+    /// liquidity The amount by which liquidity will be decreased,
     /// amount0Min The minimum amount of token0 that should be accounted for the burned liquidity,
     /// amount1Min The minimum amount of token1 that should be accounted for the burned liquidity,
     /// deadline The time by which the transaction must be included to effect the change
