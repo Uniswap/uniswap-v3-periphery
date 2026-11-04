@@ -11,7 +11,7 @@ interface IERC721Permit is IERC721 {
     function PERMIT_TYPEHASH() external pure returns (bytes32);
 
     /// @notice The domain separator used in the permit signature
-    /// @return The domain seperator used in encoding of permit signature
+    /// @return The domain separator used in encoding of permit signature
     function DOMAIN_SEPARATOR() external view returns (bytes32);
 
     /// @notice Approve of a specific token ID for spending by spender via signature

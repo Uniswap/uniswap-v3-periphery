@@ -191,7 +191,7 @@ library NFTDescriptor {
         uint256 sigfigs;
         // length of decimal string
         uint8 bufferLength;
-        // ending index for significant figures (funtion works backwards when copying sigfigs)
+        // ending index for significant figures (function works backwards when copying sigfigs)
         uint8 sigfigIndex;
         // index of decimal place (0 if no decimal)
         uint8 decimalIndex;
